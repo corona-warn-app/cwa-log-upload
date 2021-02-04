@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="default-src 'self' style-src 'unsafe-inline'" http-equiv="Content-Security-Policy">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link th:href="@{/portal/static/css/cwa.css}" rel="stylesheet" type="text/css"/>
+    <title>Corona Warn App - Log Upload</title>
+    <link th:href="@{/portal/static/img/c-19_logo.png}" rel="icon"/>
+    <script th:src="@{/portal/static/js/logout.js}"></script>
+</head>
+<body>
+<div class="header">
+    <img class="header-logo" th:src="@{/portal/static/img/telekom_web_logo.png}"/>
+    <img class="header-text" th:src="@{/portal/static/img/life_is_for_sharing.png}"/>
+</div>
+<div class="footer">
+    <p class="footer-font footer-copyright">© Telekom Deutschland GmbH</p>
+    <p class="footer-font footer-imprint">Impressum</p>
+    <img class="footer-dp-logo" th:src="@{/portal/static/img/data_protect.png}"/>
+    <p class="footer-font footer-dp">Datenschutz</p>
+</div>
+<table class="c19-logo">
+    <tr>
+        <td style="width: 1px;"><img th:src="@{/portal/static/img/c-19_logo.png}"/></td>
+        <td>Corona Warn App - Log Upload</td>
+    </tr>
+</table>
+
+<!-- BEGIN page specific content  -->
+<div class="text-big" style="top: 210px;">Log-Datei suchen</div>
+<div class="text" style="top: 300px;">Geben Sie eine Log-ID ein, um die entsprechende Datei anzuzeigen.</div>
+<form action="/portal/search" method="post">
+    <input class="input" style="top: 360px" type="text" name="logId" placeholder="Log-ID" /><br />
+    <input class="button" style="top: 420px;" type="submit" value="Log-Datei suchen"/>
+    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+</form>
+
+<!-- Current user and logout popup -->
+<table class="user" onclick="showUserPopup()">
+    <tr>
+        <td><img th:src="@{/portal/static/img/user.png}"/></td>
+        <td style="padding-left: 10px;" th:text="${userName}"/>
+    </tr>
+</table>
+<form action="/portal/logout" method="post">
+    <button class="button-menu button-logout" id="logout">Abmelden</button>
+    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+</form>
+<a target="_blank" th:href="${pwResetUrl}">
+    <button class="button-menu button-pw-reset" id="password_reset">Passwort Ändern</button>
+</a>
+<!-- END page specific content  -->
+</body>
+</html>

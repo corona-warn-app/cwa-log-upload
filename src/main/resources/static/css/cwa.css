@@ -1,0 +1,245 @@
+
+.header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 84px;
+    width: 100%;
+    background: #E20074;
+}
+
+.header-logo {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+}
+
+.header-text {
+    position: fixed;
+    top: 37px;
+    right: 20px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    height: 50px;
+    width: 100%;
+    border-top-style: solid;
+    border-width: 1px;
+    border-color: #757575;
+}
+
+.footer-font {
+    font-family: "Telegrotesk Next Regular";
+    font-size: 14px;
+    color: #757575;
+}
+
+.footer-copyright {
+    position: fixed;
+    left: 24px;
+    bottom: 3px;
+}
+
+.footer-imprint {
+    position: fixed;
+    right: 160px;
+    bottom: 3px;
+}
+
+.footer-dp {
+    position: fixed;
+    right: 20px;
+    bottom: 3px;
+}
+
+.footer-dp-logo {
+    position: fixed;
+    right: 100px;
+    bottom: 18px;
+}
+
+.c19-logo {
+    position: fixed;
+    top: 120px;
+    left: calc(50% - 200px);
+    width: 400px;
+    font-family: "Telegrotesk Next Bold";
+    font-size: 21px;
+    color: #262626;
+}
+
+.text {
+    position: fixed;
+    left: calc(50% - 300px);
+    width: 600px;
+    text-align: center;
+    font-family: "Telegrotesk Next Regular";
+    font-size: 18px;
+    color: #262626;
+}
+
+.text-bold {
+    position: fixed;
+    left: calc(50% - 300px);
+    width: 600px;
+    text-align: center;
+    font-family: "Telegrotesk Next Bold";
+    font-size: 18px;
+    color: #262626;
+}
+
+.text-medium {
+    position: fixed;
+    left: calc(50% - 300px);
+    width: 600px;
+    text-align: center;
+    font-family: "Telegrotesk Next Thin";
+    font-size: 36px;
+    color: #262626;
+}
+
+
+.text-big {
+    position: fixed;
+    left: calc(50% - 300px);
+    width: 600px;
+    text-align: center;
+    font-family: "Telegrotesk Next Thin";
+    font-size: 48px;
+    color: #262626;
+}
+
+.text-error {
+    position: fixed;
+    left: calc(50% - 300px);
+    width: 600px;
+    text-align: center;
+    font-family: "Telegrotesk Next Bold";
+    font-size: 18px;
+    color: #E20074;
+}
+
+.button {
+    position: fixed;
+    left: calc(50% - 250px);
+    width: 500px;
+    height: 40px;
+    font-family: "Telegrotesk Next Regular";
+    font-size: 18px;
+    color: #FFFFFF;
+    background: #E20074;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #E20074;
+}
+
+.input {
+    position: fixed;
+    left: calc(50% - 250px);
+    width: 485px;
+    height: 45px;
+    line-height: 45px;
+    padding-left: 10px;
+    font-family: "Telegrotesk Next Regular";
+    font-size: 18px;
+    color: #262626;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #dddddd;
+}
+
+.error {
+    position: fixed;
+    left: calc(50% - 250px);
+    width: 480px;
+    padding: 10px;
+    font-family: "Telegrotesk Next Bold";
+    font-size: 14px;
+    color: #E20074;
+    background-color: rgba(226, 0, 74, 0.1);
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: rgba(226, 0, 74, 0.1);
+}
+
+.user {
+    position: fixed;
+    right: 40px;
+    top: 100px;
+    font-family: "Telegrotesk Next Regular";
+    font-size: 18px;
+    color: #262626;
+}
+
+.button-menu {
+    position: fixed;
+    right: 40px;
+    visibility: hidden;
+    font-family: "Telegrotesk Next Regular";
+    font-size: 18px;
+    color: #262626;
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #dddddd;
+    background-color: #ffffff;
+}
+
+.button-logout {
+    top: 150px;
+    width: 100px;
+}
+
+.button-pw-reset {
+    top: 180px;
+    width: 140px;
+}
+
+.show {
+    visibility: visible;
+}
+
+.file-item-list {
+    list-style-type: none;
+    position: fixed;
+    left: calc(50% - 200px);
+    width: 400px;
+    padding: 0;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.file-item-list > li {
+    font-family: "Telegrotesk Next Regular";
+    text-overflow: ellipsis;
+    padding: 5px 10px;
+    margin: 5px 20px 5px 5px;
+    border: 1px solid #69696955;
+    border-radius: 3px;
+    cursor: pointer;
+
+    transition-property: font-weight, background-color;
+    transition-duration: 200ms;
+}
+
+.file-item-list > li:hover {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Telegrotesk Next Regular';
+    src: url('telegrotesknext-regular.woff');
+}
+
+@font-face {
+    font-family: 'Telegrotesk Next Thin';
+    src: url('telegrotesknext-thin.woff');
+}
+
+@font-face {
+    font-family: 'Telegrotesk Next Bold';
+    src: url('telegrotesknext-bold.woff');
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:" http-equiv="Content-Security-Policy">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link th:href="@{/portal/static/css/cwa.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/portal/static/css/jspanel.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/portal/static/css/codemirror.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/portal/static/css/codemirror.addons.css}" rel="stylesheet" type="text/css"/>
+    <title>Corona Warn App - Log Upload</title>
+    <link th:href="@{/portal/static/img/c-19_logo.png}" rel="icon"/>
+    <script th:src="@{/portal/static/js/logout.js}"></script>
+    <script th:src="@{/portal/static/js/zip.min.js}"></script>
+    <script th:src="@{/portal/static/js/jspanel.min.js}"></script>
+    <script th:src="@{/portal/static/js/codemirror.min.js}"></script>
+    <script th:src="@{/portal/static/js/codemirror.addons.js}"></script>
+    <script th:src="@{/portal/static/js/jquery.min.js}"></script>
+    <script th:src="@{/portal/static/js/file_viewer.js}"></script>
+</head>
+<body>
+<div class="header">
+    <img class="header-logo" th:src="@{/portal/static/img/telekom_web_logo.png}"/>
+    <img class="header-text" th:src="@{/portal/static/img/life_is_for_sharing.png}"/>
+</div>
+<div class="footer">
+    <p class="footer-font footer-copyright">© Telekom Deutschland GmbH</p>
+    <p class="footer-font footer-imprint">Impressum</p>
+    <img class="footer-dp-logo" th:src="@{/portal/static/img/data_protect.png}"/>
+    <p class="footer-font footer-dp">Datenschutz</p>
+</div>
+<table class="c19-logo">
+    <tr>
+        <td style="width: 1px;"><img th:src="@{/portal/static/img/c-19_logo.png}"/></td>
+        <td>Corona Warn App - Log Upload</td>
+    </tr>
+</table>
+
+<!-- BEGIN page specific content  -->
+<div class="text-medium" style="top: 210px; text-overflow: ellipsis" th:text="${logEntity.filename}"></div>
+<div class="text" style="top: 260px">
+    Dateigröße: <span th:text="${fileSizeHr}"></span><br />
+    Log-ID: <span th:text="${logEntity.id}"></span><br/>
+</div>
+
+<div id="step-a">
+    <div class="text" style="top: 310px">
+        Die Datei steht zum Download bereit. Klicken Sie auf den Download Button um die Datei herunterzuladen und den
+        Inhalt im Browser zu betrachten.
+    </div>
+
+    <div class="text" style="top: 380px">
+        <button class="button" th:data-logid="${logEntity.id}" onclick="download(this.getAttribute('data-logid'))">
+            Download
+        </button>
+    </div>
+</div>
+
+<div id="step-b">
+    <div class="text" style="top: 310px">
+        Bitte warten Sie. Die Datei wird heruntergeladen...
+    </div>
+</div>
+
+<div id="step-c">
+    <div class="text" style="top: 310px">
+        Klicken Sie eine Datei an, um Sie anzuzeigen.
+    </div>
+    <ul id="file-list" class="file-item-list" style="top: 330px">
+        <!-- Elements will be added by script -->
+        <!-- <li onclick="showFile(zipElement)">{{filename}}</li> -->
+    </ul>
+</div>
+
+
+<!-- Current user and logout popup -->
+<table class="user" onclick="showUserPopup()">
+    <tr>
+        <td><img th:src="@{/portal/static/img/user.png}"/></td>
+        <td style="padding-left: 10px;" th:text="${userName}"></td>
+    </tr>
+</table>
+<form action="/portal/logout" method="post">
+    <button class="button-menu button-logout" id="logout">Abmelden</button>
+    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+</form>
+<a target="_blank" th:href="${pwResetUrl}">
+    <button class="button-menu button-pw-reset" id="password_reset">Passwort Ändern</button>
+</a>
+<!-- END page specific content  -->
+</body>
+</html>

@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+  iam:
+    image: cwa-iam
+    build: ../../cwa-verification-iam
+    ports:
+      - 8443:8443
+      - 7443:7443
+    volumes:
+      - ./certs/cert.crt:/etc/x509/https/tls.crt
+      - ./certs/private.pem:/etc/x509/https/tls.key
+    environment:
+      SERVER_PORT: 8443
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: iam_postgres
+      DB_PORT: 5432
+      DB_USER: psqluser
+      DB_PASSWORD: psqlpassword
+      DB_DATABASE: iam
+  iam_postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: psqlpassword
+      POSTGRES_USER: psqluser
+      POSTGRES_DB: iam
+  minio:
+    image: minio/minio
+    command: server /data
+    volumes:
+      - bucket-data:/data
+    ports:
+      - 9000:9000
+
+volumes:
+  bucket-data:
+    
