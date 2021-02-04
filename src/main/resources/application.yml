@@ -1,0 +1,80 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 60MB
+      max-request-size: 60MB
+  application:
+    name: cwa-log-upload
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:log
+    username: sa
+    password: ''
+  liquibase:
+    change-log: classpath:db/changelog.yml
+keycloak:
+  auth-server-url: https://localhost:8443/auth
+  principal-attribute: preferred_username
+  public-client: true
+  realm: cwa
+  resource: log-upload
+  disable-trust-manager: true
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8085
+  servlet:
+    context-path: /
+    session:
+      timeout: 14400s
+
+management:
+  server:
+    port: 8085
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: info,health,metrics,prometheus
+    jmx:
+      exposure:
+        include: info,health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+host-header:
+  whitelist: localhost:8085
+
+pod:
+  ip: 127.0.0.1
+  port: 8081
+
+s3:
+  accessKey: "minioadmin"
+  secretKey: "minioadmin"
+  bucketName: "log-upload"
+  region:
+    name: "eu-de"
+    endpoint: "http://localhost:9000"
+  proxy:
+    enabled: false
+    host: ""
+    port: -1
+log-upload:
+  log-id-byte-length: 10
+  keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
