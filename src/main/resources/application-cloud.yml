@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRESQL_SERVICE_HOST}:${POSTGRESQL_SERVICE_PORT}/${POSTGRESQL_DATABASE}
+    username: ${POSTGRESQL_USER}
+    password: ${POSTGRESQL_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+s3:
+  accessKey: ${S3_ACCESS_KEY}
+  secretKey: ${S3_SECRET_KEY}
+  bucketName: ${S3_BUCKET_NAME}
+  region:
+    name: ${S3_REGION_NAME}
+    endpoint: ${S3_REGION_ENDPOINT}
+  proxy:
+    enabled: false
+    host: ""
+    port: -1
+log-upload:
+  cleanup-cron: 0 0 0 * * *
+  log-entity-lifetime: 7
+  log-id-byte-length: 10
+  keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
+els-verify:
+  tls:
+    enabled: true
+    hostname-verify: false
+    key-store: ${LOG_UPLOAD_KEYSTORE_PATH}
+    key-store-password: ${LOG_UPLOAD_KEYSTORE_PASSWORD}
+    trust-store: ${ELS_VERIFY_TRUSTSTORE_PATH}
+    trust-store-password: ${ELS_VERIFY_TRUSTSTORE_PASSWORD}
+server:
+  port: 8085
+  ssl:
+    key-store: ${LOG_UPLOAD_KEYSTORE_PATH}
+    key-store-password: ${LOG_UPLOAD_KEYSTORE_PASSWORD}
+    enabled: true
+    protocol: TLS
+    enabled-protocols: TLSv1.2,TLSv1.3
+    ciphers:
+      - TLS_AES_128_GCM_SHA256
+      - TLS_AES_256_GCM_SHA384
+      - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+      - TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+
