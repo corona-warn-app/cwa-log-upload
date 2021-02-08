@@ -62,7 +62,10 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     private static final String ROLE_C19LOG_INSPECTOR = "c19log_inspector";
     private static final String ACTUATOR_ROUTE = "/actuator/**";
-    private static final String API_ROUTE = "/api/**";
+    private static final String PUBLIC_API_ROUTE = "/api/**";
+    private static final String PORTAL_ROUTE = "/portal/**";
+    private static final String SWAGGER_ROUTE = "/v3/api-docs/**";
+
 
     private static final String SAMESITE_LAX = "Lax";
     private static final String OAUTH_TOKEN_REQUEST_STATE_COOKIE = "OAuth_Token_Request_State";
@@ -92,16 +95,18 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
-                .addFilterBefore(logUploadHttpFilter, KeycloakAuthenticationProcessingFilter.class)
-                .headers().addHeaderWriter(this::addSameSiteToOAuthCookie)
-                .and()
-                .authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, ACTUATOR_ROUTE).permitAll()
-                .mvcMatchers(API_ROUTE).permitAll()
-                .anyRequest()
-                .hasRole(ROLE_C19LOG_INSPECTOR)
-                .and()
-                .csrf().ignoringAntMatchers(API_ROUTE);
+            .addFilterBefore(logUploadHttpFilter, KeycloakAuthenticationProcessingFilter.class)
+            .headers().addHeaderWriter(this::addSameSiteToOAuthCookie)
+            .and()
+            .authorizeRequests()
+            .mvcMatchers(HttpMethod.GET, ACTUATOR_ROUTE).permitAll()
+            .mvcMatchers(PUBLIC_API_ROUTE).permitAll()
+            .mvcMatchers(SWAGGER_ROUTE).permitAll()
+            .mvcMatchers(PORTAL_ROUTE).hasRole(ROLE_C19LOG_INSPECTOR)
+            .anyRequest()
+            .denyAll()
+            .and()
+            .csrf().ignoringAntMatchers(PUBLIC_API_ROUTE, SWAGGER_ROUTE);
     }
 
     @Bean

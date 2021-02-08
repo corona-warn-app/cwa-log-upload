@@ -12,6 +12,8 @@ spring:
     password: ''
   liquibase:
     change-log: classpath:db/changelog.yml
+  mvc:
+    static-path-pattern: /portal/static/**
 keycloak:
   auth-server-url: https://localhost:8443/auth
   principal-attribute: preferred_username
@@ -76,5 +78,7 @@ s3:
     host: ""
     port: -1
 log-upload:
+  cleanup-cron: 0 0 0 * * *
+  log-entity-lifetime: 7
   log-id-byte-length: 10
   keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password

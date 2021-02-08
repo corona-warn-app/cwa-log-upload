@@ -25,9 +25,11 @@ import app.coronawarn.logupload.model.LogEntity;
 import app.coronawarn.logupload.model.LogUploadResponse;
 import app.coronawarn.logupload.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +45,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class LogUploadApiController {
 
@@ -56,20 +58,32 @@ public class LogUploadApiController {
      * @return id and hash of the uploaded log file.
      */
     @Operation(
-            description = "Uploads a log file from CWA to log-upload server",
-            method = "POST",
-            responses = {@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = LogUploadResponse.class)), description = "Object containing the ID of the uploaded log and the MD5-hash of the received file.")}
+        operationId = "uploadLogFile",
+        summary = "Uploads a log file from CWA to log-upload server.",
+        tags = {"PUBLIC"},
+        method = "POST"
     )
+    @ApiResponses({
+      @ApiResponse(
+          responseCode = "201",
+          description = "Object containing the ID and MD5 hash of the uploaded log.",
+          content = @Content(schema = @Schema(implementation = LogUploadResponse.class))
+          ),
+      @ApiResponse(
+          responseCode = "500",
+          description = "The upload of the log file has failed.",
+          content = @Content(schema = @Schema(hidden = true))
+          )
+    })
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             value = "/logs"
     )
-    public ResponseEntity<LogUploadResponse> testEndpoint(
+    public ResponseEntity<LogUploadResponse> uploadLogFile(
+            @Parameter(description = "The file to upload", required = true)
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        log.info("API Controller");
-
         log.info("Got file: {}, {}", file.getOriginalFilename(), file.getSize());
 
         LogEntity logEntity;
@@ -85,11 +99,15 @@ public class LogUploadApiController {
         try {
             logEntity =
                     storageService.storeFileStream(filename, file.getSize(), file.getInputStream());
-        } catch (FileStorageService.FileStoringException e) {
+        } catch (FileStorageService.FileStoreException e) {
+            log.error("Failed to save log file.", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return ResponseEntity.ok(new LogUploadResponse(logEntity.getId(), logEntity.getHash()));
-    }
+        log.info("Saved log file in db with id {}", logEntity.getId());
 
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new LogUploadResponse(logEntity.getId(), logEntity.getHash()));
+    }
 }

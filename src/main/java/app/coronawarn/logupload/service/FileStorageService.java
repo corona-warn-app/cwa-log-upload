@@ -29,11 +29,13 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.S3Object;
 import java.io.InputStream;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.Random;
 import javax.xml.bind.DatatypeConverter;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,7 @@ public class FileStorageService {
      * @param stream the FileInputStream of the file to store.
      * @return an LogEntity object with information about the stored file.
      */
-    public LogEntity storeFileStream(String fileName, long size, InputStream stream) throws FileStoringException {
+    public LogEntity storeFileStream(String fileName, long size, InputStream stream) throws FileStoreException {
         log.info("Persisting file stream");
 
         String id;
@@ -72,19 +74,67 @@ public class FileStorageService {
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(size);
-            
+
             putObjectResult = s3Client.putObject(s3Config.getBucketName(), id, stream, metadata);
             log.info("File stored to S3 with id {}", id);
         } catch (SdkClientException e) {
             log.error("Upload to S3 bucket failed.", e);
-            throw new FileStoringException(FileStoringException.Reason.S3_UPLOAD_FAILED);
+            throw new FileStoreException(FileStoreException.Reason.S3_UPLOAD_FAILED);
         }
 
         log.info("Storing LogEntity to database");
         LogEntity logEntity =
-                new LogEntity(id, LocalDateTime.now(), fileName, size, putObjectResult.getContentMd5(), "");
+            new LogEntity(id, ZonedDateTime.now(), fileName, size, putObjectResult.getContentMd5(), "");
 
         return logRepository.save(logEntity);
+    }
+
+    /**
+     * Method to download a log file from S3 bucket. This method returns
+     * an {@link InputStream} which can be used to get the file.
+     *
+     * @param id the ID of the file to download.
+     * @return {@link LogDownloadResponse} object containing the {@link InputStream}
+     *     of the file and a {@link LogEntity} with meta-data of the file.
+     * @throws FileStoreException if anything went wrong during download.
+     */
+    public LogDownloadResponse downloadFile(String id) throws FileStoreException {
+        Optional<LogEntity> entity = logRepository.findById(id);
+
+        if (entity.isEmpty()) {
+            throw new FileStoreException(FileStoreException.Reason.FILE_NOT_FOUND);
+        }
+
+        S3Object s3Object;
+        try {
+            s3Object = s3Client.getObject(s3Config.getBucketName(), entity.get().getId());
+        } catch (SdkClientException e) {
+            log.error("Failed to download log file from S3 bucket.", e);
+            throw new FileStoreException(FileStoreException.Reason.S3_DOWNLOAD_FAILED);
+        }
+
+        log.info("Got file from S3 bucket with id {}", entity.get().getId());
+
+        return new LogDownloadResponse(entity.get(), s3Object.getObjectContent());
+    }
+
+    /**
+     * Delete a log file from S3 bucket and database.
+     * This method does not throw any exception if something goes wrong.
+     * In case of a misbehaviour only a information in the log file will be written.
+     *
+     * @param logEntity the {@link LogEntity} to be deleted.
+     */
+    public void deleteFileSafe(LogEntity logEntity) {
+        try {
+            log.info("Deleting object with id {} from bucket", logEntity.getId());
+            s3Client.deleteObject(s3Config.getBucketName(), logEntity.getId());
+        } catch (SdkClientException e) {
+            log.error("Failed to delete log file from bucket.", e);
+        }
+
+        log.info("Deleting entity for log with id {} from database", logEntity.getId());
+        logRepository.delete(logEntity);
     }
 
     private String generateLogId() {
@@ -97,16 +147,23 @@ public class FileStorageService {
     }
 
     @Getter
-    public static class FileStoringException extends Exception {
+    @AllArgsConstructor
+    public static class LogDownloadResponse {
+        private final LogEntity logEntity;
+        private final InputStream inputStream;
+    }
+
+    @Getter
+    public static class FileStoreException extends Exception {
         private final Reason reason;
 
-        FileStoringException(Reason reason) {
+        FileStoreException(Reason reason) {
             super();
             this.reason = reason;
         }
 
         public enum Reason {
-            S3_UPLOAD_FAILED
+            S3_UPLOAD_FAILED, S3_DOWNLOAD_FAILED, S3_DELETE_FAILED, FILE_NOT_FOUND
         }
     }
 }

@@ -3,6 +3,7 @@ version: '2'
 services:
   iam:
     image: cwa-iam
+    build: ../../cwa-verification-iam
     ports:
       - 8443:8443
       - 7443:7443

@@ -23,7 +23,6 @@ package app.coronawarn.logupload.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Controller handling errors.
  */
 @Controller
-public class LogUploadErrorController implements ErrorController {
+public class LogUploadErrorController {
 
     /**
      * Error messages for the common problems like 'Not Found', 'Internal Error'
@@ -78,15 +77,5 @@ public class LogUploadErrorController implements ErrorController {
             }
         }
         return TEMPLATE_ERROR;
-    }
-
-    /**
-     * Get the path for the custom error page.
-     *
-     * @return the custom error path
-     */
-    @Override
-    public String getErrorPath() {
-        return ROUTE_ERROR;
     }
 }

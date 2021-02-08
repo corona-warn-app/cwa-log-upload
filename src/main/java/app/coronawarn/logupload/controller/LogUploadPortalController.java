@@ -21,11 +21,19 @@
 
 package app.coronawarn.logupload.controller;
 
+import app.coronawarn.logupload.config.LogUploadConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -38,14 +46,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LogUploadPortalController {
 
     /**
-     * The route to log out from the portal web site.
+     * Routes.
      */
-    private static final String ROUTE_LOGOUT = "/cwa/logout";
+    private static final String ROUTE_LOGOUT = "/portal/logout";
+    private static final String ROUTE_START = "/portal/start";
+    private static final String ROUTE_INDEX = "/";
 
     /**
-     * The html Thymeleaf template for the TeleTAN portal start web site.
+     * Template properties.
+     */
+    private static final String ATTR_USER = "userName";
+    private static final String ATTR_PW_RESET_URL = "pwResetUrl";
+
+    /**
+     * Template names.
      */
     private static final String TEMPLATE_START = "start";
+
+    private final LogUploadConfig logUploadConfig;
 
     /**
      * The Get request to log out from the portal web site.
@@ -61,5 +79,40 @@ public class LogUploadPortalController {
             log.error("Logout failed", e);
         }
         return "redirect:" + TEMPLATE_START;
+    }
+
+    /**
+     * Request for start template.
+     *
+     * @param request the http request object
+     * @return template name
+     */
+    @GetMapping(ROUTE_START)
+    public String start(HttpServletRequest request, Model model) {
+        KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) request
+            .getUserPrincipal();
+        String user = ((KeycloakPrincipal) principal.getPrincipal()).getName();
+
+        if (model != null) {
+            model.addAttribute(ATTR_USER, user.replace("<", "").replace(">", ""));
+            model.addAttribute(ATTR_PW_RESET_URL, logUploadConfig.getKeycloakPwResetUrl());
+        }
+
+
+        return TEMPLATE_START;
+    }
+
+    /**
+     * Request for index.
+     *
+     * @return Response Entity with redirection instructions.
+     */
+    @GetMapping(ROUTE_INDEX)
+    public ResponseEntity<Void> index() {
+        return ResponseEntity
+            .status(HttpStatus.FOUND)
+            .header(HttpHeaders.LOCATION, ROUTE_START)
+            .build();
+
     }
 }

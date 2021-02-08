@@ -21,6 +21,8 @@
 
 package app.coronawarn.logupload;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +32,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * The Spring Boot application class.
@@ -37,6 +40,11 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @EnableConfigurationProperties
 @EnableFeignClients
+@EnableScheduling
+@OpenAPIDefinition(info = @Info(
+        description = "API to upload and store log files in context of Corona Warn App.",
+        version = "v1.0",
+        title = "CWA Log Upload"))
 public class LogUploadApplication {
 
     public static void main(String[] args) {

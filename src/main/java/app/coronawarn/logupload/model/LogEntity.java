@@ -22,6 +22,7 @@
 package app.coronawarn.logupload.model;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class LogEntity {
     private String id;
 
     @Column(name = "createdAt")
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(name = "filename")
     private String filename;
