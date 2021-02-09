@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="default-src 'self' style-src 'unsafe-inline'" http-equiv="Content-Security-Policy">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link th:href="@{/portal/static/css/cwa.css}" rel="stylesheet" type="text/css"/>
+    <title>Corona Warn App - Log Upload</title>
+    <link th:href="@{/portal/static/img/c-19_logo.png}" rel="icon"/>
+    <script th:src="@{/portal/static/js/logout.js}"></script>
+</head>
+<body>
+<div class="header">
+    <img class="header-logo" th:src="@{/portal/static/img/telekom_web_logo.png}"/>
+    <img class="header-text" th:src="@{/portal/static/img/life_is_for_sharing.png}"/>
+</div>
+<div class="footer">
+    <p class="footer-font footer-copyright">© Telekom Deutschland GmbH</p>
+    <p class="footer-font footer-imprint">Impressum</p>
+    <img class="footer-dp-logo" th:src="@{/portal/static/img/data_protect.png}"/>
+    <p class="footer-font footer-dp">Datenschutz</p>
+</div>
+
+<table class="c19-logo">
+    <tr>
+        <td style="width: 1px;"><img th:src="@{/portal/static/img/c-19_logo.png}"/></td>
+        <td>Corona Warn App - Log Upload</td>
+    </tr>
+</table>
+
+<div class="text-error" style="top: 300px;">
+    Es konnte keine Log-Datei mit der ID gefunden werden.
+</div>
+<form action="/portal/start" method="get">
+    <input class="button" style="top: 400px;" type="submit" value="Zurück"/>
+</form>
+
+<!-- END page specific content  -->
+</body>
+</html>

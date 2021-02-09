@@ -91,10 +91,21 @@
     color: #262626;
 }
 
+.text-medium {
+    position: fixed;
+    left: calc(50% - 300px);
+    width: 600px;
+    text-align: center;
+    font-family: "Telegrotesk Next Thin";
+    font-size: 36px;
+    color: #262626;
+}
+
+
 .text-big {
     position: fixed;
-    left: calc(50% - 200px);
-    width: 400px;
+    left: calc(50% - 300px);
+    width: 600px;
     text-align: center;
     font-family: "Telegrotesk Next Thin";
     font-size: 48px;
@@ -188,6 +199,34 @@
 
 .show {
     visibility: visible;
+}
+
+.file-item-list {
+    list-style-type: none;
+    position: fixed;
+    left: calc(50% - 200px);
+    width: 400px;
+    padding: 0;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.file-item-list > li {
+    font-family: "Telegrotesk Next Regular";
+    text-overflow: ellipsis;
+    padding: 5px 10px;
+    margin: 5px 20px 5px 5px;
+    border: 1px solid #69696955;
+    border-radius: 3px;
+    cursor: pointer;
+
+    transition-property: font-weight, background-color;
+    transition-duration: 200ms;
+}
+
+.file-item-list > li:hover {
+    background-color: lightgray;
+    font-weight: bold;
 }
 
 @font-face {
