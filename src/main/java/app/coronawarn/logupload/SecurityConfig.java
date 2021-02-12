@@ -47,13 +47,11 @@ import org.springframework.security.web.authentication.session.RegisterSessionAu
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.session.MapSessionRepository;
 import org.springframework.session.SessionRepository;
-import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 
 
 @Slf4j
-@EnableSpringHttpSession
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
@@ -100,9 +98,10 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests()
             .mvcMatchers(HttpMethod.GET, ACTUATOR_ROUTE).permitAll()
-            .mvcMatchers(PUBLIC_API_ROUTE).permitAll()
-            .mvcMatchers(SWAGGER_ROUTE).permitAll()
-            .mvcMatchers(PORTAL_ROUTE).hasRole(ROLE_C19LOG_INSPECTOR)
+            .mvcMatchers(HttpMethod.POST, PUBLIC_API_ROUTE).permitAll()
+            .mvcMatchers(HttpMethod.GET, SWAGGER_ROUTE).permitAll()
+            .mvcMatchers(HttpMethod.GET, PORTAL_ROUTE).hasRole(ROLE_C19LOG_INSPECTOR)
+            .mvcMatchers(HttpMethod.POST, PORTAL_ROUTE).hasRole(ROLE_C19LOG_INSPECTOR)
             .anyRequest()
             .denyAll()
             .and()
