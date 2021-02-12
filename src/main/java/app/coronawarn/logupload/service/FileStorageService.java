@@ -66,7 +66,7 @@ public class FileStorageService {
         // Checking if generated ID already exists
         do {
             id = generateLogId();
-            existingLogEntity = logRepository.getFirstById(id);
+            existingLogEntity = logRepository.findById(id);
         } while (existingLogEntity.isPresent());
 
 
@@ -157,7 +157,7 @@ public class FileStorageService {
     public static class FileStoreException extends Exception {
         private final Reason reason;
 
-        FileStoreException(Reason reason) {
+        public FileStoreException(Reason reason) {
             super();
             this.reason = reason;
         }
