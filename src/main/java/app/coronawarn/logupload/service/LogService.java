@@ -18,6 +18,6 @@ public class LogService {
      * @return the {@link LogEntity} or null if not found.
      */
     public LogEntity getLogEntity(String id) {
-        return logRepository.getFirstById(id).orElse(null);
+        return logRepository.findById(id).orElse(null);
     }
 }
