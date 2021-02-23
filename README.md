@@ -34,7 +34,7 @@ parties from accessing or controlling the data. This repository contains the **l
 
 ## About this component
 
-tbd...
+The log upload service is the counterpart of the log upload in the app. It enables the App developers to analyse the log data uploaded to the CWA infrastructure to indentify the root cause of bugs that only occur in rare conditions are not easy to reproduce. The log upload and viewer service follows the privacy preserving paradigm of the corona warn app, only allowing authorized personell to access the logs. The means to restrict access are the same that also protect TeleTAN generation from abusive usage.
 
 ## Development
 
