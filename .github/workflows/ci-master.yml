@@ -15,9 +15,9 @@ jobs:
     - name: docker build
       run: |
         docker build \
-        --tag docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-verification-iam:latest \
-        --tag docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-verification-iam:${VERSION} \
-        --tag ${TRUSTED_URL}/${TRUSTED_REPOSITORY}/cwa-verification-iam:${VERSION} \
+        --tag docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-log-upload:latest \
+        --tag docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-log-upload:${VERSION} \
+        --tag ${TRUSTED_URL}/${TRUSTED_REPOSITORY}/cwa-log-upload:${VERSION} \
         .
       env:
         TRUSTED_URL: ${{ secrets.TRUSTED_URL }}
@@ -25,8 +25,8 @@ jobs:
     - name: docker push github
       run: |
         echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY_OWNER} --password-stdin
-        docker push docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-verification-iam:latest
-        docker push docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-verification-iam:${VERSION}
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-log-upload:latest
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY}/cwa-log-upload:${VERSION}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: docker push trusted
@@ -40,8 +40,8 @@ jobs:
         --output trusted.key trusted.key.gpg
         chmod 600 trusted.key
         docker trust key load trusted.key --name user
-        docker trust sign ${TRUSTED_URL}/${TRUSTED_REPOSITORY}/cwa-verification-iam:${VERSION}
-        docker push ${TRUSTED_URL}/${TRUSTED_REPOSITORY}/cwa-verification-iam:${VERSION}
+        docker trust sign ${TRUSTED_URL}/${TRUSTED_REPOSITORY}/cwa-log-upload:${VERSION}
+        docker push ${TRUSTED_URL}/${TRUSTED_REPOSITORY}/cwa-log-upload:${VERSION}
       env:
         TRUSTED_KEY: ${{ secrets.TRUSTED_KEY }}
         TRUSTED_URL: ${{ secrets.TRUSTED_URL }}
