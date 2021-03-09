@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRESQL_SERVICE_HOST}:${POSTGRESQL_SERVICE_PORT}/${POSTGRESQL_DATABASE}
+    username: ${POSTGRESQL_USER}
+    password: ${POSTGRESQL_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+s3:
+  accessKey: "minioadmin"
+  secretKey: "minioadmin"
+  bucketName: "log-upload"
+  region:
+    name: "eu-de"
+    endpoint: "http://localhost:9000"
+  proxy:
+    enabled: false
+    host: ""
+    port: -1
+log-upload:
+  cleanup-cron: 0 0 0 * * *
+  log-entity-lifetime: 7
+  log-id-byte-length: 10
+  keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
