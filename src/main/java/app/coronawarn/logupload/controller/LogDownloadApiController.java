@@ -25,6 +25,7 @@ import app.coronawarn.logupload.service.FileStorageService;
 import com.google.common.net.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 @RequestMapping(value = "/portal/api/")
 @RequiredArgsConstructor
+@Profile("portal")
 public class LogDownloadApiController {
 
     private final FileStorageService storageService;
