@@ -26,14 +26,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties("log-upload")
+@ConfigurationProperties("els-verify")
 @Data
-public class LogUploadConfig {
+public class ElsVerifyConfig {
 
-    private Integer logIdByteLength = 10;
-    private String keycloakPwResetUrl;
-    private String elsVerifyUrl;
-    private Integer logEntityLifetime = 7;
-    private String cleanupCron = "0 0 0 * * *";
+    private String url;
+    private TlsConfig tls;
 
+    @Data
+    public static class TlsConfig {
+        private Boolean enabled;
+        private Boolean hostnameVerify;
+        private String keyStore;
+        private String keyStorePassword;
+        private String trustStore;
+        private String trustStorePassword;
+    }
 }

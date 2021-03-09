@@ -24,6 +24,7 @@ package app.coronawarn.logupload.controller;
 import app.coronawarn.logupload.model.LogEntity;
 import app.coronawarn.logupload.model.LogUploadResponse;
 import app.coronawarn.logupload.service.FileStorageService;
+import app.coronawarn.logupload.service.OtpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.io.IOException;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,6 +53,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class LogUploadApiController {
 
     private final FileStorageService storageService;
+
+    private final OtpService otpService;
+
+    private static final Pattern UUID_PATTERN =
+        Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}");
 
     /**
      * Endpoint for uploading log files.
@@ -76,14 +84,26 @@ public class LogUploadApiController {
           )
     })
     @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            value = "/logs"
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+        value = "/logs"
     )
     public ResponseEntity<LogUploadResponse> uploadLogFile(
-            @Parameter(description = "The file to upload", required = true)
-            @RequestParam("file") MultipartFile file
+        @Parameter(description = "The file to upload", required = true)
+        @RequestParam("file") MultipartFile file,
+        @Parameter(description = "One Time Password to authorize upload", required = true)
+        @RequestHeader("cwa-otp") String otp
     ) throws IOException {
+
+        if (!UUID_PATTERN.matcher(otp).matches()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP format");
+        }
+
+        if (!otpService.verifyOtp(otp)) {
+            log.info("Unauthorized log upload");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "OTP is required for log upload.");
+        }
+
         log.info("Got file: {}, {}", file.getOriginalFilename(), file.getSize());
 
         LogEntity logEntity;
@@ -92,13 +112,13 @@ public class LogUploadApiController {
 
         if (file.getOriginalFilename() != null) {
             filename = file.getOriginalFilename().length() > 100
-                    ? file.getOriginalFilename().substring(0, 100)
-                    : file.getOriginalFilename();
+                ? file.getOriginalFilename().substring(0, 100)
+                : file.getOriginalFilename();
         }
 
         try {
             logEntity =
-                    storageService.storeFileStream(filename, file.getSize(), file.getInputStream());
+                storageService.storeFileStream(filename, file.getSize(), file.getInputStream());
         } catch (FileStorageService.FileStoreException e) {
             log.error("Failed to save log file.", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,7 +127,7 @@ public class LogUploadApiController {
         log.info("Saved log file in db with id {}", logEntity.getId());
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new LogUploadResponse(logEntity.getId(), logEntity.getHash()));
+            .status(HttpStatus.CREATED)
+            .body(new LogUploadResponse(logEntity.getId(), logEntity.getHash()));
     }
 }

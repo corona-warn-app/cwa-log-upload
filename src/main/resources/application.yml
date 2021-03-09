@@ -82,3 +82,12 @@ log-upload:
   log-entity-lifetime: 7
   log-id-byte-length: 10
   keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
+els-verify:
+  url: https://localhost:8103
+  tls:
+    enabled: true
+    hostname-verify: false
+    key-store: /client.jks
+    key-store-password: 123456
+    trust-store: /truststore.jks
+    trust-store-password: 123456
