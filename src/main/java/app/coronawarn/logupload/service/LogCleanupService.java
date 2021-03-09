@@ -8,12 +8,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Profile("api")
 public class LogCleanupService {
 
     private final LogRepository logRepository;
@@ -24,6 +27,8 @@ public class LogCleanupService {
      * Cleanup job for automated deletion of {@link LogEntity} older then a specified (e.g. 7 days) amount of time.
      */
     @Scheduled(cron = "${log-upload.cleanup-cron}")
+    @SchedulerLock(name = "LogCleanupService_cleanup", lockAtLeastFor = "PT0S",
+        lockAtMostFor = "PT30M")
     public void cleanup() {
 
         log.info("Starting log cleanup job");
