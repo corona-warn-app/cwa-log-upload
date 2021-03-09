@@ -32,7 +32,6 @@ public class LogUploadConfig {
 
     private Integer logIdByteLength = 10;
     private String keycloakPwResetUrl;
-    private String elsVerifyUrl;
     private Integer logEntityLifetime = 7;
     private String cleanupCron = "0 0 0 * * *";
 
