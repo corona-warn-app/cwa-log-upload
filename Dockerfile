@@ -1,7 +1,7 @@
 FROM maven:3-openjdk-11 as build
 
 COPY . .
-RUN mvn clean install -Dhttps.proxyHost=sia-lb.telekom.de -Dhttps.proxyPort=8080
+RUN mvn clean install
 
 
 FROM gcr.io/distroless/java-debian10:11 as run
