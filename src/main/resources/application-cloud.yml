@@ -7,12 +7,12 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 s3:
-  accessKey: "minioadmin"
-  secretKey: "minioadmin"
-  bucketName: "log-upload"
+  accessKey: ${S3_ACCESS_KEY}
+  secretKey: ${S3_SECRET_KEY}
+  bucketName: ${S3_BUCKET_NAME}
   region:
-    name: "eu-de"
-    endpoint: "http://localhost:9000"
+    name: ${S3_REGION_NAME}
+    endpoint: ${S3_REGION_ENDPOINT}
   proxy:
     enabled: false
     host: ""
@@ -22,3 +22,11 @@ log-upload:
   log-entity-lifetime: 7
   log-id-byte-length: 10
   keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
+els-verify:
+  tls:
+    enabled: true
+    hostname-verify: false
+    key-store: ${LOG_UPLOAD_KEYSTORE_PATH}
+    key-store-password: ${LOG_UPLOAD_KEYSTORE_PASSWORD}
+    trust-store: ${ELS_VERIFY_TRUSTSTORE_PATH}
+    trust-store-password: ${ELS_VERIFY_TRUSTSTORE_PASSWORD}
