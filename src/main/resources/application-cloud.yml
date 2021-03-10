@@ -30,3 +30,18 @@ els-verify:
     key-store-password: ${LOG_UPLOAD_KEYSTORE_PASSWORD}
     trust-store: ${ELS_VERIFY_TRUSTSTORE_PATH}
     trust-store-password: ${ELS_VERIFY_TRUSTSTORE_PASSWORD}
+server:
+  port: 8085
+  ssl:
+    key-store: ${LOG_UPLOAD_KEYSTORE_PATH}
+    key-store-password: ${LOG_UPLOAD_KEYSTORE_PASSWORD}
+    enabled: true
+    protocol: TLS
+    enabled-protocols: TLSv1.2,TLSv1.3
+    ciphers:
+      - TLS_AES_128_GCM_SHA256
+      - TLS_AES_256_GCM_SHA384
+      - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+      - TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+
