@@ -1,4 +1,5 @@
 /*
+ * ---license-start
  * Corona-Warn-App / cwa-log-upload
  *
  * (C) 2021, YOUR_NAME, YOUR_COMPANY
@@ -17,4 +18,5 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
+ * ---license-end
  */
