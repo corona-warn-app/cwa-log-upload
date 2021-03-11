@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@Profile("portal")
 public class LogUploadPortalController {
 
     /**
