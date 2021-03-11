@@ -8,8 +8,12 @@
   <version>1.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+
   <name>cwa-log-upload</name>
-  <description>CWA Log Upload project.</description>
+    <description>CWA Log Upload project.</description>
+  <organization>
+    <name>T-Systems International GmbH</name>
+  </organization>
 
   <url>https://www.coronawarn.app/</url>
   <ciManagement>
@@ -43,38 +47,40 @@
     <plugin.sonar.version>3.8.0.2131</plugin.sonar.version>
     <plugin.jacoco.version>0.8.6</plugin.jacoco.version>
     <guava.version>30.1-jre</guava.version>
+    <license.projectName>Corona-Warn-App / cwa-log-upload</license.projectName>
+    <license.inceptionYear>2021</license.inceptionYear>
+    <license.licenseName>apache_v2</license.licenseName>
     <sonar.coverage.exclusions>
       **/LogUploadApplication.java,
       **/SecurityConfig.java,
       **/client/*
     </sonar.coverage.exclusions>
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring.boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring.cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.keycloak.bom</groupId>
-        <artifactId>keycloak-adapter-bom</artifactId>
-        <version>${keycloak.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.keycloak.bom</groupId>
+                <artifactId>keycloak-adapter-bom</artifactId>
+                <version>${keycloak.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
   <distributionManagement>
     <repository>
@@ -351,7 +357,21 @@
           </dependency>
         </dependencies>
       </plugin>
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.0.0</version>
+        <configuration>
+          <includes>**/*.java</includes>
+          <copyrightOwners>${project.organization.name} and all other contributors</copyrightOwners>
+          <processStartTag>---license-start</processStartTag>
+          <processEndTag>---license-end</processEndTag>
+          <sectionDelimiter>---</sectionDelimiter>
+          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+          <trimHeaderLine>true</trimHeaderLine>
+          <emptyLineAfterHeader>true</emptyLineAfterHeader>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>
