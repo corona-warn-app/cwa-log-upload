@@ -157,7 +157,6 @@ become part of its developer community.
 
 A list of all public repositories from the Corona-Warn-App can be found [here](https://github.com/corona-warn-app/cwa-documentation/blob/master/README.md#repositories).
 
-
 ## Licensing
 
 Copyright (c) 2020 Deutsche Telekom AG.
