@@ -23,6 +23,7 @@ log-upload:
   log-id-byte-length: 10
   keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
 els-verify:
+  url: ${ELS_VERIFY_URL}
   tls:
     enabled: true
     hostname-verify: false
