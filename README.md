@@ -26,8 +26,7 @@ vicinity of an app user's phone. The data is stored locally on each user's devic
 parties from accessing or controlling the data. This repository contains the **log upload** for the Corona-Warn-App.
 
 ## Status
-
-![ci](https://github.com/corona-warn-app/cwa-log-upload/workflows/ci/badge.svg)
+![ci-master](https://github.com/corona-warn-app/cwa-log-upload/actions/workflows/ci-master.yml/badge.svg)
 [![quality gate](https://sonarcloud.io/api/project_badges/measure?project=corona-warn-app_cwa-log-upload&metric=alert_status)](https://sonarcloud.io/dashboard?id=corona-warn-app_cwa-log-upload)
 [![coverage](https://sonarcloud.io/api/project_badges/measure?project=corona-warn-app_cwa-log-upload&metric=coverage)](https://sonarcloud.io/dashboard?id=corona-warn-app_cwa-log-upload)
 [![bugs](https://sonarcloud.io/api/project_badges/measure?project=corona-warn-app_cwa-log-upload&metric=bugs)](https://sonarcloud.io/dashboard?id=corona-warn-app_cwa-log-upload)
@@ -134,14 +133,10 @@ The following channels are available for discussions, feedback, and support requ
 
 | Type                     | Channel                                                |
 | ------------------------ | ------------------------------------------------------ |
-| **General
-Discussion**   | <a href="https://github.com/corona-warn-app/cwa-documentation/issues/new/choose" title="General Discussion"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-documentation/question.svg?style=flat-square"></a> </a>   |
-| **Concept
-Feedback**    | <a href="https://github.com/corona-warn-app/cwa-documentation/issues/new/choose" title="Open Concept Feedback"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-documentation/architecture.svg?style=flat-square"></a>  |
-| **Log Upload
-Issue**    | <a href="https://github.com/corona-warn-app/cwa-log-upload/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-log-upload?style=flat"></a>  |
-| **Other
-Requests**    | <a href="mailto:cwa-opensource@telekom.de" title="Email CWA Team"><img src="https://img.shields.io/badge/email-CWA%20team-green?logo=mail.ru&style=flat-square&logoColor=white"></a>   |
+| **General Discussion**   | <a href="https://github.com/corona-warn-app/cwa-documentation/issues/new/choose" title="General Discussion"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-documentation/question.svg?style=flat-square"></a> </a>   |
+| **Concept Feedback**    | <a href="https://github.com/corona-warn-app/cwa-documentation/issues/new/choose" title="Open Concept Feedback"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-documentation/architecture.svg?style=flat-square"></a>  |
+| **Log Upload Issue**    | <a href="https://github.com/corona-warn-app/cwa-log-upload/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-log-upload?style=flat"></a>  |
+| **Other Requests**    | <a href="mailto:cwa-opensource@telekom.de" title="Email CWA Team"><img src="https://img.shields.io/badge/email-CWA%20team-green?logo=mail.ru&style=flat-square&logoColor=white"></a>   |
 
 ## How to Contribute
 
