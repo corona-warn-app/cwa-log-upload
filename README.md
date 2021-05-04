@@ -33,7 +33,11 @@ parties from accessing or controlling the data. This repository contains the **l
 
 ## About this component
 
-The log upload service is the counterpart of the log upload in the app. It enables the App developers to analyse the log data uploaded to the CWA infrastructure to indentify the root cause of bugs that only occur in rare conditions are not easy to reproduce. The log upload and viewer service follows the privacy preserving paradigm of the corona warn app, only allowing authorized personell to access the logs. The means to restrict access are the same that also protect TeleTAN generation from abusive usage.
+The log upload service is the counterpart of the log upload in the app. 
+It enables the App developers to analyse the log data uploaded to the CWA infrastructure to identify the root cause of bugs that only occur in rare conditions are not easy to reproduce. 
+The log upload and viewer service follows the privacy preserving paradigm of the corona warn app, only allowing authorized personnel to access the logs.
+The means to restrict access and control who can access the data. The logs are kept inside the application and are only accessible trough the portal. 
+The access to the portal is restricted trough the IAM component with a separate role for this access. 
 
 ## Development
 
@@ -87,18 +91,18 @@ On the command line do the following:
 
 ```bash
 docker build -f|--file <path to dockerfile>  -t <imagename>  <path-to-log-upload-root>
-docker run -p 127.0.0.1:8081:8081/tcp -it <imagename>
+docker run -p 127.0.0.1:8085:8085/tcp -it <imagename>
 ```
 
 or simply
 
 ```bash
-docker build --pull --rm -f "Dockerfile" -t cwa-logupload "."
-docker run -p 127.0.0.1:8081:8081/tcp -it cwa-logupload
+docker build --pull --rm -f "Dockerfile" -t cwa-log-upload "."
+docker run -p 127.0.0.1:8085:8085/tcp -it cwa-log-upload
 ```
 
 if you are in the root of the checked out repository.  
-The docker image will then run on your local machine on port 8081 assuming you configured docker for shared network
+The docker image will then run on your local machine on port 8085 assuming you configured docker for shared network
 mode.
 
 ## Code of Conduct
@@ -156,6 +160,9 @@ become part of its developer community.
 ## Repositories
 
 A list of all public repositories from the Corona-Warn-App can be found [here](https://github.com/corona-warn-app/cwa-documentation/blob/master/README.md#repositories).
+
+[cwa-log-upload]: https://github.com/corona-warn-app/cwa-log-upload
+
 
 ## Licensing
 
