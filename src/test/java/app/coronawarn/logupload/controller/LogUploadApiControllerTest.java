@@ -1,6 +1,8 @@
 package app.coronawarn.logupload.controller;
 
+import static app.coronawarn.logupload.controller.LogUploadApiController.UUID_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -160,4 +162,15 @@ public class LogUploadApiControllerTest {
         verifyNoInteractions(otpServiceMock);
     }
 
+
+  @Test
+  void validOtpsShouldBeAccepted() {
+    assertTrue(UUID_PATTERN.matcher("6F85A5E6-B730-42F3-B0ED-38C3352ACCBE").matches());
+    assertTrue(UUID_PATTERN.matcher("08FC37E9-B3D5-407F-9CF6-979DB6892194").matches());
+    assertTrue(UUID_PATTERN.matcher("17B86082-E9F6-43B2-A962-09903B150CAA").matches());
+    assertTrue(UUID_PATTERN.matcher("FBC85932-65C3-4CB2-889F-74F340A71E1C").matches());
+    assertTrue(UUID_PATTERN.matcher("4D2D3597-932F-4AF4-BA31-37EC9D148AF7").matches());
+    assertTrue(UUID_PATTERN.matcher("2F89C68A-5058-49C8-BF49-47A3820CB2AE").matches());
+    assertTrue(UUID_PATTERN.matcher("95BB7E96-6D8C-4AE3-B114-0AED1E0FE952").matches());
+  }
 }
