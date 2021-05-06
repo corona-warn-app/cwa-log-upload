@@ -2,7 +2,7 @@ name: ci-release-notes
 on:
   release:
     types:
-    - createds
+    - created
     - edited
     - prereleased
 jobs:
