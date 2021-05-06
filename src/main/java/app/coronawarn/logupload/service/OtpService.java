@@ -33,7 +33,7 @@ public class OtpService {
             response = elsVerifyClient.verifyOtp(request);
         } catch (FeignException e) {
             if (e.status() == HttpStatus.SC_BAD_REQUEST) {
-                log.info("OTP is invalid");
+                log.info("Bad request validating OTP");
             } else {
                 log.error("Could not redeem otp", e);
             }
