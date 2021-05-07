@@ -61,13 +61,11 @@ async function showFile(file, statusElement) {
         div.css("background-repeat", "no-repeat");
         div.css("background-position", "center");
 
-        const cleanFileName = DOMPurify.sanitize(file.filename);
-
         jsPanel.create({
             contentSize: "500 500",
             position: "left-top 30 20",
             content: divNative,
-            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>" + cleanFileName + "</span>",
+            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>Bilddatei</span>",
             theme: "#e20074",
         });
 
@@ -83,13 +81,11 @@ async function showFile(file, statusElement) {
         div.height("100%");
         div.width("100%");
 
-        const cleanFileName = DOMPurify.sanitize(file.filename);
-
         jsPanel.create({
             contentSize: "800 500",
             position: "left-top 30 20",
             content: divNative,
-            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>" + cleanFileName + "</span>",
+            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>Textdatei</span>",
             theme: "#e20074",
             callback: (panel) => {
                 console.log(panel);
