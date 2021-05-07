@@ -65,7 +65,7 @@ async function showFile(file, statusElement) {
             contentSize: "500 500",
             position: "left-top 30 20",
             content: divNative,
-            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>" + file.filename + "</span>",
+            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>Bilddatei</span>",
             theme: "#e20074",
         });
 
@@ -85,7 +85,7 @@ async function showFile(file, statusElement) {
             contentSize: "800 500",
             position: "left-top 30 20",
             content: divNative,
-            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>" + file.filename + "</span>",
+            headerTitle: "<span style='font-variant: initial; font-family: \"Telegrotesk Next Regular\";'>Textdatei</span>",
             theme: "#e20074",
             callback: (panel) => {
                 console.log(panel);
