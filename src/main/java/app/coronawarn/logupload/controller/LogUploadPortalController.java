@@ -108,7 +108,7 @@ public class LogUploadPortalController {
     public String search(HttpServletRequest request, Model model, @ModelAttribute(ATTR_LOG_ID) String logId) {
         addUserDetailsToModel(request, model);
 
-        log.info("Got id {}", logId);
+        log.info("Searching log by id");
 
         LogEntity logEntity = logService.getLogEntity(logId);
 

@@ -106,7 +106,7 @@ public class LogUploadApiController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "OTP is required for log upload.");
         }
 
-        log.info("Got file: {}, {}", file.getOriginalFilename(), file.getSize());
+        log.info("Got file with size of {}", file.getSize());
 
         LogEntity logEntity;
 
