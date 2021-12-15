@@ -35,8 +35,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- dependencies -->
-    <spring.boot.version>2.4.2</spring.boot.version>
-    <spring.cloud.version>2020.0.1</spring.cloud.version>
+    <spring.boot.version>2.5.7</spring.boot.version>
+    <spring.cloud.version>2020.0.4</spring.cloud.version>
     <keycloak.version>12.0.2</keycloak.version>
     <lombok.version>1.18.18</lombok.version>
     <springdoc.version>1.5.3</springdoc.version>
@@ -55,6 +55,7 @@
       **/SecurityConfig.java,
       **/client/*
     </sonar.coverage.exclusions>
+    <log4j2.version>2.16.0</log4j2.version>
   </properties>
     <dependencyManagement>
         <dependencies>
