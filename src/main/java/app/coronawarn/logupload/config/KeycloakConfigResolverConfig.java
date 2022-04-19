@@ -1,9 +1,9 @@
 /*
- * Corona-Warn-App / cwa-verification
+ * Corona-Warn-App / cwa-log-upload
  *
  * (C) 2021 - 2022, T-Systems International GmbH
  *
- * Deutsche Telekom AG, SAP AG and all other contributors /
+ * Deutsche Telekom AG and all other contributors /
  * copyright owners license this file to you under the Apache
  * License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License.
@@ -19,15 +19,18 @@
  * under the License.
  */
 
-package app.coronawarn.logupload.repository;
+package app.coronawarn.logupload.config;
 
-import app.coronawarn.logupload.model.LogEntity;
-import java.time.ZonedDateTime;
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public interface LogRepository extends JpaRepository<LogEntity, String> {
+@Configuration
+public class KeycloakConfigResolverConfig {
 
-    List<LogEntity> findByCreatedAtBefore(ZonedDateTime before);
+    @Bean
+    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
+    }
 
 }

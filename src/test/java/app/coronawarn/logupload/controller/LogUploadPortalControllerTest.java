@@ -1,6 +1,6 @@
 package app.coronawarn.logupload.controller;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -14,13 +14,12 @@ import app.coronawarn.logupload.config.LogUploadConfig;
 import app.coronawarn.logupload.model.LogEntity;
 import app.coronawarn.logupload.service.FileStorageService;
 import app.coronawarn.logupload.service.LogService;
-import com.c4_soft.springaddons.security.oauth2.test.annotations.OidcStandardClaims;
+import com.c4_soft.springaddons.security.oauth2.test.annotations.OpenIdClaims;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import java.time.ZonedDateTime;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -60,7 +59,7 @@ public class LogUploadPortalControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth(oidc = @OidcStandardClaims(preferredUsername = dummyUsername))
+    @WithMockKeycloakAuth(claims = @OpenIdClaims(preferredUsername = dummyUsername))
     public void testPortalStartPage() throws Exception {
         mockMvc.perform(get("/portal/start").header("Host", "localhost:8085"))
             .andExpect(ResultMatcher.matchAll(
@@ -73,7 +72,7 @@ public class LogUploadPortalControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth(oidc = @OidcStandardClaims(preferredUsername = dummyUsername))
+    @WithMockKeycloakAuth(claims = @OpenIdClaims(preferredUsername = dummyUsername))
     public void testPortalIndexRedirect() throws Exception {
         mockMvc.perform(get("/").header("Host", "localhost:8085"))
             .andExpect(ResultMatcher.matchAll(
@@ -83,7 +82,7 @@ public class LogUploadPortalControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth(oidc = @OidcStandardClaims(preferredUsername = dummyUsername))
+    @WithMockKeycloakAuth(claims = @OpenIdClaims(preferredUsername = dummyUsername))
     public void testPortalSearchPage() throws Exception {
         given(logServiceMock.getLogEntity(eq(dummyLogId)))
             .willReturn(dummyLogEntity);
@@ -103,7 +102,7 @@ public class LogUploadPortalControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth(oidc = @OidcStandardClaims(preferredUsername = dummyUsername))
+    @WithMockKeycloakAuth(claims = @OpenIdClaims(preferredUsername = dummyUsername))
     public void testPortalSearchPageNotFound() throws Exception {
         given(logServiceMock.getLogEntity(eq(dummyLogId)))
             .willReturn(null);

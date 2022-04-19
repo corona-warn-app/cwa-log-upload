@@ -9,6 +9,7 @@ import app.coronawarn.logupload.client.ElsVerifyClientResponse;
 import feign.FeignException;
 import feign.Request;
 import feign.RequestTemplate;
+import java.util.Collections;
 import java.util.HashMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class OtpServiceTest {
         ArgumentCaptor<ElsVerifyClientRequest> captor =
             ArgumentCaptor.forClass(ElsVerifyClientRequest.class);
 
-        doThrow(new FeignException.BadRequest("", getDummyFeignRequest(), null))
+        doThrow(new FeignException.BadRequest("", getDummyFeignRequest(), null, Collections.emptyMap()))
             .when(elsVerifyClientMock).verifyOtp(captor.capture());
 
         Assertions.assertFalse(otpService.verifyOtp(testOtp));
@@ -59,7 +60,7 @@ public class OtpServiceTest {
         ArgumentCaptor<ElsVerifyClientRequest> captor =
             ArgumentCaptor.forClass(ElsVerifyClientRequest.class);
 
-        doThrow(new FeignException.InternalServerError("", getDummyFeignRequest(), null))
+        doThrow(new FeignException.InternalServerError("", getDummyFeignRequest(), null, Collections.emptyMap()))
             .when(elsVerifyClientMock).verifyOtp(captor.capture());
 
         Assertions.assertFalse(otpService.verifyOtp(testOtp));

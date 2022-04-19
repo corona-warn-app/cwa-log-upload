@@ -1,7 +1,7 @@
 /*
  * Corona-Warn-App / cwa-log-upload
  *
- * (C) 2021, T-Systems International GmbH
+ * (C) 2021 - 2022, T-Systems International GmbH
  *
  * Deutsche Telekom AG and all other contributors /
  * copyright owners license this file to you under the Apache
@@ -19,8 +19,9 @@
  * under the License.
  */
 
-package app.coronawarn.logupload;
+package app.coronawarn.logupload.config;
 
+import app.coronawarn.logupload.LogUploadHttpFilter;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
@@ -76,11 +77,6 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
-
-    @Bean
-    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
     }
 
     @Bean
