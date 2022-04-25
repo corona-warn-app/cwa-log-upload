@@ -44,6 +44,8 @@
         <springdoc.version>1.6.7</springdoc.version>
         <aws-s3.version>1.12.201</aws-s3.version>
         <shedlock.version>4.34.0</shedlock.version>
+        <liquibase.version>4.9.1</liquibase.version>
+        <h2.version>2.1.212</h2.version>
         <!-- plugins -->
         <plugin.checkstyle.version>3.1.2</plugin.checkstyle.version>
         <plugin.sonar.version>3.9.1.2184</plugin.sonar.version>
@@ -198,6 +200,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -208,6 +211,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
