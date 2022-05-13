@@ -1,5 +1,8 @@
 FROM maven:3-openjdk-11 as build
 
+ARG MAVEN_PASSWORD
+ARG MAVEN_USERNAME
+
 COPY . .
 RUN mvn clean install \
     --settings ./settings.xml \
