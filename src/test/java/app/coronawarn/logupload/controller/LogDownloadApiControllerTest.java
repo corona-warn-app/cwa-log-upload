@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import app.coronawarn.logupload.model.LogEntity;
 import app.coronawarn.logupload.service.FileStorageService;
-import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
+import com.c4_soft.springaddons.security.oauth2.test.annotations.WithMockJwtAuth;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.ZonedDateTime;
@@ -21,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 @WebMvcTest(controllers = LogDownloadApiController.class)
 @ContextConfiguration(classes = LogDownloadApiController.class)
@@ -34,27 +33,28 @@ public class LogDownloadApiControllerTest {
     @MockBean
     FileStorageService fileStorageServiceMock;
 
-    private final static byte[] dummyBytes = new byte[]{0xD, 0xE, 0xA, 0xD, 0xB, 0xE, 0xE, 0xF};
+    private final static byte[] dummyBytes = new byte[] {0xD, 0xE, 0xA, 0xD, 0xB, 0xE, 0xE, 0xF};
     private final static String dummyFileName = "dummy.zip";
     private final static String dummyHash = "hash123456789";
     private final static String dummyLogId = "ABCDEFG";
-    private final static LogEntity dummyLogEntity = new LogEntity(dummyLogId, ZonedDateTime.now(), dummyFileName, dummyBytes.length, dummyHash, "");
+    private final static LogEntity dummyLogEntity =
+      new LogEntity(dummyLogId, ZonedDateTime.now(), dummyFileName, dummyBytes.length, dummyHash, "");
 
     @Test
-    @WithMockKeycloakAuth
+    @WithMockJwtAuth
     public void testLogDownload() throws Exception {
         InputStream stream = new ByteArrayInputStream(dummyBytes);
 
         given(fileStorageServiceMock.downloadFile(eq(dummyLogId)))
-            .willReturn(new FileStorageService.LogDownloadResponse(dummyLogEntity, stream));
+          .willReturn(new FileStorageService.LogDownloadResponse(dummyLogEntity, stream));
 
         mockMvc.perform(get("/portal/api/logs/" + dummyLogId).header("Host", "localhost:8085"))
-            .andExpect(ResultMatcher.matchAll(
-                status().isOk(),
-                header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dummyFileName + "\""),
-                header().longValue(HttpHeaders.CONTENT_LENGTH, dummyBytes.length),
-                content().bytes(dummyBytes)
-            ));
+          .andExpectAll(
+            status().isOk(),
+            header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dummyFileName + "\""),
+            header().longValue(HttpHeaders.CONTENT_LENGTH, dummyBytes.length),
+            content().bytes(dummyBytes)
+          );
     }
 
     @Test
@@ -62,30 +62,32 @@ public class LogDownloadApiControllerTest {
         InputStream stream = new ByteArrayInputStream(dummyBytes);
 
         given(fileStorageServiceMock.downloadFile(eq(dummyLogId)))
-            .willReturn(new FileStorageService.LogDownloadResponse(dummyLogEntity, stream));
+          .willReturn(new FileStorageService.LogDownloadResponse(dummyLogEntity, stream));
 
         mockMvc.perform(get("/portal/api/logs/" + dummyLogId).header("Host", "localhost:8085"))
-            .andExpect(status().isUnauthorized());
+          .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @WithMockKeycloakAuth
+    @WithMockJwtAuth
     public void testLogDownloadShouldReturn404IfFileNotFound() throws Exception {
         given(fileStorageServiceMock.downloadFile(eq(dummyLogId)))
-            .willThrow(new FileStorageService.FileStoreException(FileStorageService.FileStoreException.Reason.FILE_NOT_FOUND));
+          .willThrow(
+            new FileStorageService.FileStoreException(FileStorageService.FileStoreException.Reason.FILE_NOT_FOUND));
 
         mockMvc.perform(get("/portal/api/logs/" + dummyLogId).header("Host", "localhost:8085"))
-            .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound());
     }
 
     @Test
-    @WithMockKeycloakAuth
+    @WithMockJwtAuth
     public void testLogDownloadShouldReturn500IfDownloadFails() throws Exception {
         given(fileStorageServiceMock.downloadFile(eq(dummyLogId)))
-            .willThrow(new FileStorageService.FileStoreException(FileStorageService.FileStoreException.Reason.S3_DOWNLOAD_FAILED));
+          .willThrow(
+            new FileStorageService.FileStoreException(FileStorageService.FileStoreException.Reason.S3_DOWNLOAD_FAILED));
 
         mockMvc.perform(get("/portal/api/logs/" + dummyLogId).header("Host", "localhost:8085"))
-            .andExpect(status().isInternalServerError());
+          .andExpect(status().isInternalServerError());
 
     }
 }

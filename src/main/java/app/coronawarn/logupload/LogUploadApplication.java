@@ -23,15 +23,10 @@ package app.coronawarn.logupload;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
-import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -41,22 +36,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableConfigurationProperties
 @EnableFeignClients
 @EnableScheduling
-@OpenAPIDefinition(info = @Info(
-        description = "API to upload and store log files in context of Corona Warn App.",
-        version = "v1.0",
-        title = "CWA Log Upload"))
+@OpenAPIDefinition(info = @Info(description = "API to upload and store log files in context of Corona Warn App.",
+  version = "v1.0", title = "CWA Log Upload"))
 public class LogUploadApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LogUploadApplication.class, args);
     }
 
-    /**
+    /*
      * Enable the cipher suites from server to be preferred.
      *
      * @return the WebServerFactoryCustomizer with cipher suites configuration
-     */
-    @Bean
+
+     @Bean
     @ConditionalOnProperty(value = "server.ssl.cipher.suites.order", havingValue = "true")
     public WebServerFactoryCustomizer<TomcatServletWebServerFactory> webServerFactoryCustomizer() {
         return factory -> factory
@@ -64,6 +57,6 @@ public class LogUploadApplication {
                         ((AbstractHttp11Protocol<?>) connector.getProtocolHandler())
                                 .setUseServerCipherSuitesOrder(true)
                 );
-    }
+    }*/
 
 }
