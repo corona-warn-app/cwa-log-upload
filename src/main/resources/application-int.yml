@@ -27,11 +27,11 @@ spring:
             scope: openid
         provider:
           keycloak:
-            issuer-uri: https://verification-iam-c6aebf52.coronawarn.app/realms/cwa
+            issuer-uri: INT-URL
             user-name-attribute: preferred_username
         resourceserver:
           jwt:
-            issuer-uri: https://verification-iam-c6aebf52.coronawarn.app/realms/cwa
+            issuer-uri: INT-URL
     filter:
       dispatcher-types: request
 
