@@ -6,6 +6,16 @@ spring:
     password: ${POSTGRESQL_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${KEYCLOAK_REALM_URI}
+        resourceserver:
+          jwt:
+            issuer-uri: ${KEYCLOAK_REALM_URI}
+
 s3:
   accessKey: ${S3_ACCESS_KEY}
   secretKey: ${S3_SECRET_KEY}
@@ -21,7 +31,7 @@ log-upload:
   cleanup-cron: 0 0 0 * * *
   log-entity-lifetime: 7
   log-id-byte-length: 10
-  keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
+  keycloak-pw-reset-url: ${KEYCLOAK_REALM_URI}/account/password
 els-verify:
   url: ${ELS_VERIFY_URL}
   tls:
