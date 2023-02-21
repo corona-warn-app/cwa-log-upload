@@ -1,4 +1,4 @@
-FROM maven:3-openjdk-11 as build
+FROM maven:3-openjdk-18 as build
 
 ARG MAVEN_PASSWORD
 ARG MAVEN_USERNAME
@@ -10,7 +10,7 @@ RUN mvn clean install \
     --define app.packages.password=${MAVEN_PASSWORD}
 
 
-FROM gcr.io/distroless/java-debian10:11 as run
+FROM gcr.io/distroless/java17-debian11:latest as run
 
 COPY --from=build ./target/*.jar /app.jar
 USER 65534:65534

@@ -1,4 +1,7 @@
 spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
   servlet:
     multipart:
       max-file-size: 60MB
@@ -24,20 +27,20 @@ spring:
             scope: openid
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/cwa
+            issuer-uri: INT-URL
             user-name-attribute: preferred_username
         resourceserver:
           jwt:
-            issuer-uri: http://localhost:8080/realms/cwa
-  cloud:
-    compatibility-verifier:
-      enabled: false
+            issuer-uri: INT-URL
+    filter:
+      dispatcher-types: request
+
 
 server:
   error:
     whitelabel:
       enabled: false
-  port: 8085
+  port: 8080
   servlet:
     context-path: /
     session:
@@ -45,7 +48,7 @@ server:
 
 management:
   server:
-    port: 8085
+    port: 8080
   endpoint:
     info:
       enabled: true
@@ -71,7 +74,7 @@ management:
         enabled: true
 
 host-header:
-  whitelist: localhost:8085
+  whitelist: localhost:8080
 
 pod:
   ip: 127.0.0.1
@@ -88,13 +91,11 @@ s3:
     enabled: false
     host: ""
     port: -1
-
 log-upload:
   cleanup-cron: 0 0 0 * * *
   log-entity-lifetime: 7
   log-id-byte-length: 10
   keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
-
 els-verify:
   url: https://localhost:8103
   tls:

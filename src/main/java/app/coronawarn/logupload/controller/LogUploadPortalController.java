@@ -24,9 +24,9 @@ package app.coronawarn.logupload.controller;
 import app.coronawarn.logupload.config.LogUploadConfig;
 import app.coronawarn.logupload.model.LogEntity;
 import app.coronawarn.logupload.service.LogService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -128,15 +128,14 @@ public class LogUploadPortalController {
     @GetMapping(ROUTE_INDEX)
     public ResponseEntity<Void> index() {
         return ResponseEntity
-            .status(HttpStatus.FOUND)
-            .header(HttpHeaders.LOCATION, ROUTE_START)
-            .build();
+          .status(HttpStatus.FOUND)
+          .header(HttpHeaders.LOCATION, ROUTE_START)
+          .build();
 
     }
 
     private void addUserDetailsToModel(HttpServletRequest request, Model model) {
         Principal principal = request.getUserPrincipal();
-        request.getUserPrincipal().getName();
         String user = principal.getName();
 
         if (model != null) {

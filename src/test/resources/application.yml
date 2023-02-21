@@ -1,4 +1,9 @@
 spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  profiles:
+    active: test
   servlet:
     multipart:
       max-file-size: 60MB
@@ -14,24 +19,8 @@ spring:
     change-log: classpath:db/changelog.yml
   mvc:
     static-path-pattern: /portal/static/**
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: log-upload
-            authorization-grant-type: authorization_code
-            scope: openid
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8080/realms/cwa
-            user-name-attribute: preferred_username
-        resourceserver:
-          jwt:
-            issuer-uri: http://localhost:8080/realms/cwa
-  cloud:
-    compatibility-verifier:
-      enabled: false
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   error:
@@ -88,13 +77,11 @@ s3:
     enabled: false
     host: ""
     port: -1
-
 log-upload:
   cleanup-cron: 0 0 0 * * *
   log-entity-lifetime: 7
   log-id-byte-length: 10
   keycloak-pw-reset-url: https://localhost:8443/auth/realms/cwa/account/password
-
 els-verify:
   url: https://localhost:8103
   tls:
