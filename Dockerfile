@@ -1,4 +1,4 @@
-FROM maven:3-openjdk-18 as build
+FROM maven:3-openjdk-17 as build
 
 ARG MAVEN_PASSWORD
 ARG MAVEN_USERNAME
