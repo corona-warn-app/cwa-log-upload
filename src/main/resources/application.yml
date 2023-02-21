@@ -29,9 +29,6 @@ spring:
         resourceserver:
           jwt:
             issuer-uri: http://localhost:8080/realms/cwa
-  cloud:
-    compatibility-verifier:
-      enabled: false
 
 server:
   error:
